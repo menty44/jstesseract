@@ -15,8 +15,15 @@
 function runOCR(url) 
 {
     console.log('runOCR function start processing', url);
-    var tsocr = [];
-    Tesseract.recognize(url)
+    let tsocr = [];
+    const config = {
+        lang: 'eng',
+        oem: 1,
+        psm: 3,
+        tessedit_char_whitelist: '0123456789'
+        // tessedit_char_blacklist: 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-‘-.-..—-.:~.:_-._.._.-—-—~>————«\'$"‘‘=—=;%“‘’“?é|!'
+    };
+    Tesseract.recognize(url, config)
     .then(function(result) {
         })
         .progress(function(result) {
