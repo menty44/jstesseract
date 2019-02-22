@@ -1,0 +1,53 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<script src="https://cdn.rawgit.com/naptha/tesseract.js/0.2.0/dist/tesseract.js"></script>
+<!--<scripts src="https://cdn.rawgit.com/naptha/tesseract.js/master/lib/Tesseract.2015.07.26.js"></scripts>-->
+</head>
+<body>
+<input type="text" id="url" placeholder="Image URL"/>
+<input type="button" id="go_button" value="Run"/>
+<div id="ocr_status"> </div>
+<div id="ocr_results"> </div>
+
+<script>
+function runOCR(url) 
+{
+    console.log('runOCR function start processing', url);
+    var tsocr = [];
+    Tesseract.recognize(url)
+    .then(function(result) {
+        })
+        .progress(function(result) {
+            console.log('final result is?? ', result);
+        document.getElementById("ocr_status")
+        .innerText = result["status"] + " (" +
+    (result["progress"] * 100) + "%)";
+    })
+    .catch(err => console.error(err))
+    .then(function(results) {
+        console.log('final result is?? ', results);
+            results.symbols.forEach(function (items) {
+            console.log('final loop ?? ', items.text);
+            return tsocr.push(items.text);
+        });
+        document.getElementById("ocr_results")
+            // .innerText = localStorage.getItem('ocr');
+            // let g = tsocr.replace(/^[, ]+|[, ]+$|[, ]+/g, " ").trim();
+            .innerText = tsocr.join('');
+        console.log('final p result', tsocr.join(''))
+    })
+
+}
+    document.getElementById("go_button")
+    .addEventListener("click", function(e) {
+        console.log('my function param', e);
+        let url = document.getElementById("url").value;
+        console.log('my url param', url);
+        runOCR(url);
+});
+
+</script>
+</body>
+</html>
